@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>שאלה 44 - שני ישרים</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #1a1a1a;
+    --panel: #f8f9fa;
+    --border: #dee2e6;
+    --purple: #7c3aed;
+    --green: #22c55e;
+    --orange: #f59e0b;
+    --teal: #14b8a6;
+    --cyan: #06b6d4;
+    --yellow: #eab308;
+    --red: #ef4444;
+    --pink: #ec4899;
+    --blue: #3b82f6;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    font-size: 20px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 32px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    text-decoration: underline;
+  }
+
+  .subtitle {
+    text-align: center;
+    font-size: 22px;
+    color: var(--purple);
+    margin-bottom: 25px;
+  }
+
+  .exercise {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 25px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    color: var(--purple);
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+
+  .question-image {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    border: 2px solid var(--purple);
+  }
+
+  .question-image img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .given-box {
+    background: rgba(124, 58, 237, 0.1);
+    border: 2px solid var(--purple);
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin: 15px 0;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .formula {
+    direction: ltr;
+    display: inline-block;
+    font-family: 'Times New Roman', serif;
+    font-size: 22px;
+    background: rgba(124, 58, 237, 0.1);
+    padding: 2px 10px;
+    border-radius: 4px;
+  }
+
+  .question-item {
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 12px 0;
+    transition: all 0.3s;
+  }
+
+  .question-item.correct {
+    border-color: var(--green);
+    background: rgba(34, 197, 94, 0.08);
+  }
+
+  .question-item.hint-active {
+    border-color: var(--orange);
+  }
+
+  .question-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+  }
+
+  .question-letter {
+    background: var(--purple);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .question-text {
+    font-size: 20px;
+    color: var(--ink);
+    flex-grow: 1;
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 15px 0;
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124, 58, 237, 0.05);
+    padding: 8px 12px;
+    border-radius: 8px;
+    direction: ltr;
+  }
+
+  .answer-input {
+    width: 60px;
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--ink);
+    direction: ltr;
+  }
+
+  .answer-input:focus {
+    outline: none;
+    border-color: var(--purple);
+  }
+
+  .answer-input.correct {
+    border-color: var(--green);
+    background: rgba(34, 197, 94, 0.15);
+  }
+
+  .answer-input.wrong {
+    border-color: var(--red);
+    animation: shake 0.3s;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  .check-btn {
+    padding: 12px 28px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    background: var(--purple);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+  }
+
+  .check-btn:hover:not(:disabled) {
+    background: #6d28d9;
+    transform: translateY(-2px);
+  }
+
+  .check-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  .hint-box {
+    margin-top: 12px;
+    padding: 14px 18px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 2px solid var(--orange);
+    border-radius: 10px;
+    font-size: 18px;
+    color: #92400e;
+    display: none;
+  }
+
+  .hint-box.show {
+    display: block;
+    animation: fadeIn 0.4s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .success-msg {
+    color: var(--green);
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    display: none;
+    text-align: center;
+  }
+
+  .success-msg.show {
+    display: block;
+    animation: pop 0.4s;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .explanation-box {
+    background: rgba(34, 197, 94, 0.1);
+    border: 2px solid var(--green);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #166534;
+    margin-top: 10px;
+    display: none;
+  }
+
+  .explanation-box.show {
+    display: block;
+  }
+
+  .progress-bar {
+    background: var(--border);
+    height: 10px;
+    border-radius: 5px;
+    margin: 20px 0;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--purple), var(--blue));
+    border-radius: 5px;
+    transition: width 0.4s;
+    width: 0%;
+  }
+
+  .progress-text {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .celebration {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-radius: 2px;
+    animation: fall 3s ease-out forwards;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .final-celebration {
+    display: none;
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(59, 130, 246, 0.15));
+    border: 3px solid var(--purple);
+    border-radius: 16px;
+    margin-top: 25px;
+  }
+
+  .final-celebration.show {
+    display: block;
+    animation: pop 0.5s;
+  }
+
+  .final-celebration h2 {
+    color: var(--purple);
+    font-size: 32px;
+    margin: 0 0 15px 0;
+  }
+
+  .choice-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 5px;
+  }
+
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--purple);
+    background: rgba(124, 58, 237, 0.1);
+  }
+
+  .choice-btn.correct {
+    border-color: var(--green);
+    background: rgba(34, 197, 94, 0.2);
+    color: #166534;
+  }
+
+  .choice-btn.wrong {
+    border-color: var(--red);
+    background: rgba(239, 68, 68, 0.1);
+    animation: shake 0.3s;
+  }
+
+  .choice-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .point-label {
+    font-weight: bold;
+    color: var(--purple);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="title">שאלה 44 - עמוד 11</div>
+  <div class="subtitle">שני ישרים במישור</div>
+
+  <div class="progress-text">התקדמות: <span id="progressCount">0</span> מתוך 4 חלקים</div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Original question image from SVG -->
+  <div class="question-image">
+    <img src="../page_11_q_44.svg" alt="שאלה 44 - שני ישרים">
+  </div>
+
+  <div class="exercise">
+    <div class="given-box">
+      <strong>נתונים שני הישרים:</strong><br>
+      <span class="formula">y = 3x + 9</span>
+      &nbsp;&nbsp;&nbsp;ו-&nbsp;&nbsp;&nbsp;
+      <span class="formula">y = -3x + 9</span>
+      <br><br>
+      <span style="font-size: 16px; color: #666;">
+        A - נקודת החיתוך של הישרים<br>
+        B - חיתוך הישר y=3x+9 עם ציר x<br>
+        C - חיתוך הישר y=-3x+9 עם ציר x
+      </span>
+    </div>
+
+    <!-- Part א - Find coordinates -->
+    <div class="section-title">א. מצאו את שיעורי הנקודות A, B, C</div>
+
+    <div class="question-item" id="q-a">
+      <div class="question-header">
+        <div class="question-letter">א</div>
+        <div class="question-text">מהן הקואורדינטות של הנקודות?</div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <span class="point-label">A(</span>
+          <input type="text" class="answer-input" id="ax" placeholder="x" maxlength="3">
+          <span>,</span>
+          <input type="text" class="answer-input" id="ay" placeholder="y" maxlength="3">
+          <span class="point-label">)</span>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <span class="point-label">B(</span>
+          <input type="text" class="answer-input" id="bx" placeholder="x" maxlength="3">
+          <span>,</span>
+          <input type="text" class="answer-input" id="by" placeholder="y" maxlength="3">
+          <span class="point-label">)</span>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <span class="point-label">C(</span>
+          <input type="text" class="answer-input" id="cx" placeholder="x" maxlength="3">
+          <span>,</span>
+          <input type="text" class="answer-input" id="cy" placeholder="y" maxlength="3">
+          <span class="point-label">)</span>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <button class="check-btn" onclick="checkPartA()">בדוק</button>
+      </div>
+
+      <div class="hint-box" id="hint-a"></div>
+      <div class="success-msg" id="success-a">מצוין! מצאת את כל הנקודות!</div>
+      <div class="explanation-box" id="explain-a">
+        <b>A(0,9)</b> - נקודת חיתוך: נשווה 3x+9 = -3x+9 ונקבל x=0, y=9<br>
+        <b>B(-3,0)</b> - חיתוך עם ציר x: נציב y=0 במשוואה 3x+9=0 ונקבל x=-3<br>
+        <b>C(3,0)</b> - חיתוך עם ציר x: נציב y=0 במשוואה -3x+9=0 ונקבל x=3
+      </div>
+    </div>
+
+    <!-- Part ב - Find lengths -->
+    <div class="section-title">ב. מצאו את אורכי הקטעים AO, BO, CO</div>
+
+    <div class="question-item" id="q-b">
+      <div class="question-header">
+        <div class="question-letter">ב</div>
+        <div class="question-text">מהם אורכי הקטעים? (O היא ראשית הצירים)</div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <span>AO = </span>
+          <input type="text" class="answer-input" id="ao" placeholder="?" maxlength="3">
+        </div>
+        <div class="input-group">
+          <span>BO = </span>
+          <input type="text" class="answer-input" id="bo" placeholder="?" maxlength="3">
+        </div>
+        <div class="input-group">
+          <span>CO = </span>
+          <input type="text" class="answer-input" id="co" placeholder="?" maxlength="3">
+        </div>
+      </div>
+
+      <div class="input-row">
+        <button class="check-btn" onclick="checkPartB()">בדוק</button>
+      </div>
+
+      <div class="hint-box" id="hint-b"></div>
+      <div class="success-msg" id="success-b">נכון מאוד!</div>
+      <div class="explanation-box" id="explain-b">
+        <b>AO = 9</b> (מרחק על ציר y בין (0,0) ל-(0,9))<br>
+        <b>BO = 3</b> (מרחק על ציר x בין (-3,0) ל-(0,0))<br>
+        <b>CO = 3</b> (מרחק על ציר x בין (0,0) ל-(3,0))
+      </div>
+    </div>
+
+    <!-- Part ג - Prove congruence -->
+    <div class="section-title">ג. הוכיחו: ΔABO ≅ ΔACO</div>
+
+    <div class="question-item" id="q-c">
+      <div class="question-header">
+        <div class="question-letter">ג</div>
+        <div class="question-text">בחרו את משפט החפיפה המתאים:</div>
+      </div>
+
+      <div class="input-row" style="flex-wrap: wrap;">
+        <button class="choice-btn" onclick="checkPartC('sss', this)">צ.צ.צ (SSS)</button>
+        <button class="choice-btn" onclick="checkPartC('sas', this)">צ.ז.צ (SAS)</button>
+        <button class="choice-btn" onclick="checkPartC('asa', this)">ז.צ.ז (ASA)</button>
+        <button class="choice-btn" onclick="checkPartC('aas', this)">ז.ז.צ (AAS)</button>
+      </div>
+
+      <div class="hint-box" id="hint-c"></div>
+      <div class="success-msg" id="success-c">מעולה! צ.ז.צ היא התשובה הנכונה!</div>
+      <div class="explanation-box" id="explain-c">
+        <b>הוכחת החפיפה:</b><br>
+        • AO משותף לשני המשולשים<br>
+        • OB = OC = 3<br>
+        • ∠AOB = ∠AOC = 90° (AO על ציר y, ו-OB/OC על ציר x)<br>
+        לכן חפיפה לפי <b>צ.ז.צ</b> (SAS) → ΔABO ≅ ΔACO
+      </div>
+    </div>
+
+    <!-- Part ד - Calculate area -->
+    <div class="section-title">ד. חשבו את שטח המשולש ΔABC</div>
+
+    <div class="question-item" id="q-d">
+      <div class="question-header">
+        <div class="question-letter">ד</div>
+        <div class="question-text">מהו שטח המשולש ABC?</div>
+      </div>
+
+      <div class="input-row">
+        <span>בסיס BC = </span>
+        <input type="text" class="answer-input" id="base" placeholder="?" maxlength="3">
+        <span>&nbsp;&nbsp;גובה = </span>
+        <input type="text" class="answer-input" id="height" placeholder="?" maxlength="3">
+        <span>&nbsp;&nbsp;שטח = </span>
+        <input type="text" class="answer-input" id="area" placeholder="?" maxlength="3">
+      </div>
+
+      <div class="input-row">
+        <button class="check-btn" onclick="checkPartD()">בדוק</button>
+      </div>
+
+      <div class="hint-box" id="hint-d"></div>
+      <div class="success-msg" id="success-d">מצוין! חישבת את השטח נכון!</div>
+      <div class="explanation-box" id="explain-d">
+        הבסיס BC נמצא על ציר x: <b>BC = 3 - (-3) = 6</b><br>
+        הגובה מ-A לציר x הוא <b>9</b><br>
+        לכן: <b>שטח = (1/2) × 6 × 9 = 27</b>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="final-celebration" id="finalCelebration">
+    <h2>כל הכבוד! סיימת את השאלה!</h2>
+    <div style="font-size: 20px; color: #166534;">
+      הבנת את הקשר בין פונקציות לינאריות, נקודות חיתוך וחפיפת משולשים!
+    </div>
+  </div>
+
+</div>
+
+<div class="celebration" id="celebration"></div>
+
+<script>
+const hints = {
+  'a': [
+    'רמז: כדי למצוא את A, השוו את שתי המשוואות',
+    'רמז: 3x+9 = -3x+9, פתרו ומצאו x',
+    'רמז: A נמצאת ב-x=0, הציבו וקבלו y=9'
+  ],
+  'b': [
+    'רמז: המרחק על ציר הוא פשוט ההפרש בין הקואורדינטות',
+    'רמז: AO - המרחק מ-(0,0) ל-(0,9) על ציר y',
+    'רמז: BO ו-CO הם מרחקים על ציר x'
+  ],
+  'c': [
+    'רמז: מה משותף לשני המשולשים?',
+    'רמז: מה הזווית בין ציר x לציר y?',
+    'רמז: יש לנו צלע משותפת, זווית ישרה, וצלעות שוות'
+  ],
+  'd': [
+    'רמז: הבסיס הוא המרחק מ-B ל-C על ציר x',
+    'רמז: BC = 3 - (-3) = ?',
+    'רמז: שטח משולש = (בסיס × גובה) / 2'
+  ]
+};
+
+let attempts = { a: 0, b: 0, c: 0, d: 0 };
+let completed = new Set();
+const totalParts = 4;
+
+function checkPartA() {
+  if (completed.has('a')) return;
+  attempts.a++;
+
+  const ax = document.getElementById('ax').value.trim();
+  const ay = document.getElementById('ay').value.trim();
+  const bx = document.getElementById('bx').value.trim();
+  const by = document.getElementById('by').value.trim();
+  const cx = document.getElementById('cx').value.trim();
+  const cy = document.getElementById('cy').value.trim();
+
+  const aCorrect = ax === '0' && ay === '9';
+  const bCorrect = bx === '-3' && by === '0';
+  const cCorrect = cx === '3' && cy === '0';
+
+  document.getElementById('ax').classList.toggle('correct', ax === '0');
+  document.getElementById('ax').classList.toggle('wrong', ax !== '0' && ax !== '');
+  document.getElementById('ay').classList.toggle('correct', ay === '9');
+  document.getElementById('ay').classList.toggle('wrong', ay !== '9' && ay !== '');
+  document.getElementById('bx').classList.toggle('correct', bx === '-3');
+  document.getElementById('bx').classList.toggle('wrong', bx !== '-3' && bx !== '');
+  document.getElementById('by').classList.toggle('correct', by === '0');
+  document.getElementById('by').classList.toggle('wrong', by !== '0' && by !== '');
+  document.getElementById('cx').classList.toggle('correct', cx === '3');
+  document.getElementById('cx').classList.toggle('wrong', cx !== '3' && cx !== '');
+  document.getElementById('cy').classList.toggle('correct', cy === '0');
+  document.getElementById('cy').classList.toggle('wrong', cy !== '0' && cy !== '');
+
+  if (aCorrect && bCorrect && cCorrect) {
+    markComplete('a');
+  } else {
+    showHint('a');
+  }
+}
+
+function checkPartB() {
+  if (completed.has('b')) return;
+  attempts.b++;
+
+  const ao = document.getElementById('ao').value.trim();
+  const bo = document.getElementById('bo').value.trim();
+  const co = document.getElementById('co').value.trim();
+
+  document.getElementById('ao').classList.toggle('correct', ao === '9');
+  document.getElementById('ao').classList.toggle('wrong', ao !== '9' && ao !== '');
+  document.getElementById('bo').classList.toggle('correct', bo === '3');
+  document.getElementById('bo').classList.toggle('wrong', bo !== '3' && bo !== '');
+  document.getElementById('co').classList.toggle('correct', co === '3');
+  document.getElementById('co').classList.toggle('wrong', co !== '3' && co !== '');
+
+  if (ao === '9' && bo === '3' && co === '3') {
+    markComplete('b');
+  } else {
+    showHint('b');
+  }
+}
+
+function checkPartC(answer, btn) {
+  if (completed.has('c')) return;
+  attempts.c++;
+
+  const buttons = document.querySelectorAll('#q-c .choice-btn');
+
+  if (answer === 'sas') {
+    btn.classList.add('correct');
+    buttons.forEach(b => b.disabled = true);
+    markComplete('c');
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(() => btn.classList.remove('wrong'), 400);
+    showHint('c');
+  }
+}
+
+function checkPartD() {
+  if (completed.has('d')) return;
+  attempts.d++;
+
+  const base = document.getElementById('base').value.trim();
+  const height = document.getElementById('height').value.trim();
+  const area = document.getElementById('area').value.trim();
+
+  document.getElementById('base').classList.toggle('correct', base === '6');
+  document.getElementById('base').classList.toggle('wrong', base !== '6' && base !== '');
+  document.getElementById('height').classList.toggle('correct', height === '9');
+  document.getElementById('height').classList.toggle('wrong', height !== '9' && height !== '');
+  document.getElementById('area').classList.toggle('correct', area === '27');
+  document.getElementById('area').classList.toggle('wrong', area !== '27' && area !== '');
+
+  if (base === '6' && height === '9' && area === '27') {
+    markComplete('d');
+  } else {
+    showHint('d');
+  }
+}
+
+function showHint(id) {
+  const hintBox = document.getElementById('hint-' + id);
+  const hintIndex = Math.min(attempts[id] - 1, hints[id].length - 1);
+  hintBox.innerHTML = '&#128161; ' + hints[id][hintIndex];
+  hintBox.classList.add('show');
+  document.getElementById('q-' + id).classList.add('hint-active');
+}
+
+function markComplete(id) {
+  const item = document.getElementById('q-' + id);
+  item.classList.add('correct');
+  item.classList.remove('hint-active');
+  document.getElementById('hint-' + id).classList.remove('show');
+  document.getElementById('success-' + id).classList.add('show');
+  document.getElementById('explain-' + id).classList.add('show');
+
+  item.querySelectorAll('input').forEach(i => i.disabled = true);
+  item.querySelectorAll('button').forEach(b => b.disabled = true);
+
+  completed.add(id);
+  updateProgress();
+  createConfetti();
+}
+
+function updateProgress() {
+  const count = completed.size;
+  document.getElementById('progressCount').textContent = count;
+  document.getElementById('progressFill').style.width = (count / totalParts * 100) + '%';
+
+  if (count === totalParts) {
+    setTimeout(() => {
+      document.getElementById('finalCelebration').classList.add('show');
+      bigConfetti();
+    }, 500);
+  }
+}
+
+function createConfetti() {
+  const c = document.getElementById('celebration');
+  const colors = ['#7c3aed', '#3b82f6', '#22c55e', '#f59e0b', '#ec4899'];
+  for (let i = 0; i < 30; i++) {
+    const d = document.createElement('div');
+    d.className = 'confetti';
+    d.style.left = Math.random() * 100 + '%';
+    d.style.background = colors[Math.floor(Math.random() * colors.length)];
+    d.style.animationDelay = Math.random() * 0.4 + 's';
+    c.appendChild(d);
+  }
+  setTimeout(() => { c.innerHTML = ''; }, 3000);
+}
+
+function bigConfetti() {
+  const c = document.getElementById('celebration');
+  const colors = ['#7c3aed', '#3b82f6', '#22c55e', '#f59e0b', '#ec4899', '#06b6d4'];
+  for (let i = 0; i < 80; i++) {
+    const d = document.createElement('div');
+    d.className = 'confetti';
+    d.style.left = Math.random() * 100 + '%';
+    d.style.background = colors[Math.floor(Math.random() * colors.length)];
+    d.style.animationDelay = Math.random() * 1 + 's';
+    d.style.width = (8 + Math.random() * 8) + 'px';
+    d.style.height = (8 + Math.random() * 8) + 'px';
+    c.appendChild(d);
+  }
+  setTimeout(() => { c.innerHTML = ''; }, 4000);
+}
+
+document.querySelectorAll('.answer-input').forEach(input => {
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      const item = input.closest('.question-item');
+      const btn = item.querySelector('.check-btn');
+      if (btn && !btn.disabled) btn.click();
+    }
+  });
+});
+</script>
+
+</body>
+</html>
